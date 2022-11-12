@@ -1,0 +1,202 @@
+fragment image on UploadFile {
+  name
+  alternativeText
+  url
+}
+
+fragment cover on Post {
+  cover {
+    data {
+      id
+      attributes {
+        ...image
+      }
+    }
+  }
+}
+
+fragment tag on Tag {
+  displayName
+  slug
+}
+
+fragment author on Author {
+  displayName
+  slug
+}
+
+fragment category on Category {
+  displayName
+  slug
+}
+
+fragment tags on Post {
+  tags {
+    data {
+      id
+      attributes {
+        ...tag
+      }
+    }
+  }
+}
+
+fragment authorPost on Post {
+  author {
+    data {
+      id
+      attributes {
+        ...author
+      }
+    }
+  }
+}
+
+fragment categories on Post {
+  categories {
+    data {
+      id
+      attributes {
+        ...category
+      }
+    }
+  }
+}
+
+fragment menuLink on ComponentMenuMenuLink {
+  id
+  link
+  text
+  newTab
+}
+
+fragment post on Post {
+  title
+  slug
+  excerpt
+  content
+  allowComments
+  ...categories
+  ...tags
+  ...authorPost
+  ...cover
+}
+
+fragment settings on Setting {
+  blogName
+  blogDescription
+  logo {
+    data {
+      id
+      attributes {
+        name
+        alternativeText
+        url
+      }
+    }
+  }
+  menuLink {
+    ...menuLink
+  }
+  text
+}
+
+query GET_POSTS {
+  setting {
+    data {
+      id
+      attributes {
+        ...settings
+      }
+    }
+  }
+
+  posts {
+    data {
+      id
+      attributes {
+        ...post
+      }
+    }
+  }
+}
+
+query GET_POST_BY_SLUG($postSlug: StringFilterInput!) {
+  setting {
+    data {
+      id
+      attributes {
+        ...settings
+      }
+    }
+  }
+
+  posts(filters: { slug: $postSlug }) {
+    data {
+      id
+      attributes {
+        ...post
+      }
+    }
+  }
+}
+
+query GET_POST_BY_AUTHOR($postAuthor: AuthorFiltersInput!) {
+  setting {
+    data {
+      id
+      attributes {
+        ...settings
+      }
+    }
+  }
+
+  posts(filters: { author: $postAuthor }) {
+    data {
+      id
+      attributes {
+        ...post
+      }
+    }
+  }
+}
+
+query GET_POST_BY_CATEGORY($postCategory: CategoryFiltersInput!) {
+  setting {
+    data {
+      id
+      attributes {
+        ...settings
+      }
+    }
+  }
+
+  posts(filters: { categories: $postCategory }) {
+    data {
+      id
+      attributes {
+        ...post
+      }
+    }
+  }
+}
+
+query GET_POST_BY_TAG($postTag: TagFiltersInput!) {
+  setting {
+    data {
+      id
+      attributes {
+        ...settings
+      }
+    }
+  }
+
+  posts(filters: { tags: $postTag }) {
+    data {
+      id
+      attributes {
+        ...post
+      }
+    }
+  }
+}
