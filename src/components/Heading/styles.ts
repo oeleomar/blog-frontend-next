@@ -19,22 +19,25 @@ const titleCase = (uppercase: boolean) => css`
 
 const titleSize = {
   small: (theme: DefaultTheme) => css`
-    ${theme.font.sizes.text_2xl}
+    font-size: ${theme.font.sizes.medium};
   `,
   medium: (theme: DefaultTheme) => css`
-    ${theme.font.sizes.text_3xl}
+      font-size: ${theme.font.sizes.large};
+
   `,
   large: (theme: DefaultTheme) => css`
-    ${theme.font.sizes.text_4xl}
+        font-size: ${theme.font.sizes.huge};
+
   `,
   huge: (theme: DefaultTheme) => css`
-    ${theme.font.sizes.text_5xl}
+        font-size: ${theme.font.sizes.xhuge};
+
     ${mediaFont(theme)}
   `,
 };
 
 const mediaFont = (theme: DefaultTheme) => css`
   @media ${theme.media.lteMedium} {
-    font-size: ${theme.font.sizes.text_lg};
+    font-size: ${theme.font.sizes.medium};
   }
 `;
