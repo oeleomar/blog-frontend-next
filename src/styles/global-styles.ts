@@ -35,7 +35,7 @@ export const GlobalStyles = createGlobalStyle`
   }
 
   a {
-    color: ${({ theme }) => theme.colors.secundary};
+    color: ${({ theme }) => theme.colors.secondary};
   }
 
   .table {
