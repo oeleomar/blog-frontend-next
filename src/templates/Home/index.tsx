@@ -1,7 +1,9 @@
-import { Heading } from 'components/Heading';
+import * as Styled from './styles';
 
-function Home() {
-  return <Heading />;
+export function Home() {
+  return (
+    <Styled.Wrapper>
+      <h1>Ola</h1>
+    </Styled.Wrapper>
+  );
 }
-
-export default Home;
