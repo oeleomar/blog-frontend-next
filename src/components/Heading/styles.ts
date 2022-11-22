@@ -1,15 +1,12 @@
 import styled, { css, DefaultTheme } from 'styled-components';
 import { HeadingProps } from '.';
 
-export const Title = styled.div<
-  Pick<HeadingProps, 'uppercase' | 'size' | 'darkFont'>
->`
-  font-size: 20px;
-  font-weight: 900;
+export const Title = styled.h1<HeadingProps>`
   ${({ theme, darkFont, size, uppercase }) => css`
     color: ${darkFont ? theme.colors.primary : theme.colors.white};
     ${titleSize[size](theme)}
     ${titleCase(uppercase)}
+    line-height: 1.2;
   `}
 `;
 
