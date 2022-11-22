@@ -1,5 +1,4 @@
 import { Heading } from 'components/Heading';
-import { HtmlContent } from 'components/HtmlContent';
 import { LogoLink } from 'components/LogoLink';
 import * as Styled from './styles';
 
