@@ -33,7 +33,7 @@ export const theme = {
     xlarge: '4.0rem',
     xxlarge: '4.8rem',
     huge: '5.6rem',
-    xhuge: '6.4rem',
+    xhuge: '6.2rem',
   },
   sizes: {
     max: '96rem',

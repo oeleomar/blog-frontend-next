@@ -3,7 +3,7 @@ import { HeadingProps } from '.';
 
 export const Title = styled.h1<HeadingProps>`
   ${({ theme, darkFont, size, uppercase }) => css`
-    color: ${darkFont ? theme.colors.primary : theme.colors.white};
+    color: ${darkFont ? theme.colors.darkText : theme.colors.white};
     ${titleSize[size](theme)}
     ${titleCase(uppercase)}
     line-height: 1.2;
@@ -23,11 +23,11 @@ const titleSize = {
 
   `,
   large: (theme: DefaultTheme) => css`
-        font-size: ${theme.font.sizes.huge};
+        font-size: ${theme.font.sizes.xlarge};
 
   `,
   huge: (theme: DefaultTheme) => css`
-        font-size: ${theme.font.sizes.xhuge};
+        font-size: ${theme.font.sizes.huge};
 
     ${mediaFont(theme)}
   `,
