@@ -70,5 +70,5 @@ export default {
     },
   ],
   blogName: 'Otávio Miranda',
-  logo: '/assets/images/otavio-miranda.png',
+  logo: '/assets/img/logo.png',
 } as MenuProps;

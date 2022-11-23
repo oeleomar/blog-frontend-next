@@ -23,7 +23,7 @@ export const Menu = ({ links, blogName, logo }: MenuProps) => {
         <MenuIcon aria-label="Open Menu" />
       </Styled.OpenClose>
       <Styled.Wrapper>
-        <Styled.Nave>
+        <Styled.Nav>
           <Styled.Logo>
             <LogoLink link="/" text={blogName} srcImg={logo} />
           </Styled.Logo>
@@ -32,7 +32,7 @@ export const Menu = ({ links, blogName, logo }: MenuProps) => {
               {link.text}
             </MenuLink>
           ))}
-        </Styled.Nave>
+        </Styled.Nav>
       </Styled.Wrapper>
     </>
   );
