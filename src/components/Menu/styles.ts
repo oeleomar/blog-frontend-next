@@ -1,8 +1,14 @@
 import styled, { css } from 'styled-components';
 import { Title as HeadingStyles } from '../Heading/styles';
 
-export const Wrapper = styled.div`
-  ${({ theme }) => css`
+type MenuBehaviorProps = {
+  menuVisible: boolean;
+};
+
+const wrapperChanger = (menuVisible, theme) => {};
+
+export const Wrapper = styled.div<MenuBehaviorProps>`
+  ${({ theme, menuVisible }) => css`
     background: ${theme.colors.primary};
     padding: ${theme.spacings.large};
     display: flex;
@@ -42,8 +48,8 @@ export const Logo = styled.div`
   `}
 `;
 
-export const OpenClose = styled.a`
-  ${({ theme }) => css`
+export const OpenClose = styled.a<MenuBehaviorProps>`
+  ${({ theme, menuVisible }) => css`
     position: fixed;
     color: ${theme.colors.white};
     background: ${theme.colors.primary};
