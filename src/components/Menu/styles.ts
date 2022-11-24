@@ -45,11 +45,12 @@ export const Logo = styled.div`
 export const OpenClose = styled.a`
   ${({ theme }) => css`
     position: fixed;
-    top: ${theme.spacings.medium};
     color: ${theme.colors.white};
     background: ${theme.colors.primary};
     z-index: 2;
     width: 3rem;
     height: 3rem;
+    top: ${theme.spacings.medium};
+    left: 26rem;
   `}
 `;
