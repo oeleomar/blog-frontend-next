@@ -1,11 +1,21 @@
-import styled, { css } from 'styled-components';
+import styled, { css, DefaultTheme } from 'styled-components';
 import { Title as HeadingStyles } from '../Heading/styles';
 
 type MenuBehaviorProps = {
   menuVisible: boolean;
 };
 
-const wrapperChanger = (menuVisible, theme) => {};
+const wrapperChanger = (
+  menuVisible: MenuBehaviorProps['menuVisible'],
+  theme: DefaultTheme,
+) => css`
+  left: ${menuVisible ? '0' : '-30rem'};
+  overflow-y: ${menuVisible ? 'auto' : 'hidden'};
+
+  @media ${theme.media.lteMedium} {
+    left: ${menuVisible ? '0' : '-32rem'};
+  }
+`;
 
 export const Wrapper = styled.div<MenuBehaviorProps>`
   ${({ theme, menuVisible }) => css`
@@ -20,7 +30,7 @@ export const Wrapper = styled.div<MenuBehaviorProps>`
     top: 0;
     left: 0;
     transition: all .3s ease-in-out;
-    overflow-y: auto;
+    ${wrapperChanger(menuVisible, theme)}
   `}
 `;
 
@@ -48,6 +58,18 @@ export const Logo = styled.div`
   `}
 `;
 
+const buttonChanger = (
+  menuVisible: MenuBehaviorProps['menuVisible'],
+  theme: DefaultTheme,
+) => css`
+  left: ${menuVisible ? '26rem' : '1rem'};
+  color: ${menuVisible ? theme.colors.secondary : theme.colors.white};
+
+  @media ${theme.media.lteMedium} {
+    left: ${menuVisible ? '26rem' : '-0.5rem'};
+  }
+`;
+
 export const OpenClose = styled.a<MenuBehaviorProps>`
   ${({ theme, menuVisible }) => css`
     position: fixed;
@@ -58,5 +80,8 @@ export const OpenClose = styled.a<MenuBehaviorProps>`
     height: 3rem;
     top: ${theme.spacings.medium};
     left: 26rem;
+    transition: all .3s ease-in-out;
+
+    ${buttonChanger(menuVisible, theme)}
   `}
 `;
