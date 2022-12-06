@@ -35,7 +35,7 @@ export const Wrapper = styled.div<MenuBehaviorProps>`
 `;
 
 export const Nav = styled.nav`
-  ${({ theme }) => css`
+  ${() => css`
     margin: auto;
     width: 100%;
 
