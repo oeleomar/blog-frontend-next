@@ -4,6 +4,7 @@ import { StrapiImage } from 'shared-types/strapiImage';
 import * as Styled from './styles';
 
 export type PostCardProps = {
+  id: string;
   title: string;
   cover: StrapiImage;
   excerpt: string;
