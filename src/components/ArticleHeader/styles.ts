@@ -23,6 +23,7 @@ export const Excerpt = styled.p`
 
 export const Cover = styled.img`
   ${({ theme }) => css`
+    width: 100%;
     max-width: 100%;
     display: block;
     margin-bottom: ${theme.spacings.medium};
