@@ -1,16 +1,29 @@
 import { request } from 'graphql-request';
-import { GRAPHQL_QUERY } from 'graphql/queries';
+import * as GRAPHQL_QUERY from 'graphql/queries';
 import { PostStrapi } from 'shared-types/post-strapi';
 import { SettingsStrapi } from 'shared-types/settings-strapi';
 import config from '../config/index';
 
 export type LoadPostVariables = {
-  categorySlug?: string;
-  postSlug?: string;
-  postSearch?: string;
-  authorSlug?: string;
-  tagSlug?: string;
-  sort?: string;
+  categorySlug?: {
+    slug: {
+      contains: string;
+    };
+  };
+  postSlug?: {
+    contains: string;
+  };
+  authorSlug?: {
+    slug: {
+      contains: string;
+    };
+  };
+
+  tagSlug?: {
+    slug: {
+      contains: string;
+    };
+  };
   start?: number;
   limit?: number;
 };
@@ -20,16 +33,59 @@ export type FullStrapy = { setting: SettingsStrapi; posts: PostStrapi[] };
 export const loadPosts = async (
   variables: LoadPostVariables = {},
 ): Promise<FullStrapy> => {
-  const defaultVariables: LoadPostVariables = {
-    sort: 'createdAt:desc',
+  let data: FullStrapy | null;
+  const defaultVariables = {
     start: 0,
     limit: 10,
   };
-  const data = await request(config.graphQlUrl, GRAPHQL_QUERY, {
-    ...defaultVariables,
-    ...variables,
-  });
-  console.log(data);
+
+  try {
+    if (variables.authorSlug) {
+      console.log(variables.authorSlug);
+      data = await request(
+        config.graphQlUrl,
+        GRAPHQL_QUERY.GRAPHQL_QUERY_AUTHOR,
+        { ...defaultVariables, ...variables },
+      );
+      console.log(data, GRAPHQL_QUERY.GRAPHQL_QUERY_AUTHOR);
+    } else if (variables.categorySlug) {
+      console.log('categor');
+      data = await request(
+        config.graphQlUrl,
+        GRAPHQL_QUERY.GRAPHQL_QUERY_CATEGORY,
+        {
+          ...defaultVariables,
+          ...variables,
+        },
+      );
+    } else if (variables.postSlug) {
+      console.log(GRAPHQL_QUERY.GRAPHQL_QUERY_SLUG);
+      data = await request(
+        config.graphQlUrl,
+        GRAPHQL_QUERY.GRAPHQL_QUERY_SLUG,
+        {
+          ...defaultVariables,
+          ...variables,
+        },
+      );
+    } else if (variables.tagSlug) {
+      console.log('tag');
+      data = await request(config.graphQlUrl, GRAPHQL_QUERY.GRAPHQL_QUERY_TAG, {
+        ...variables,
+      });
+    } else {
+      data = await request(
+        config.graphQlUrl,
+        GRAPHQL_QUERY.GRAPHQL_QUERY_POSTS,
+        {
+          ...defaultVariables,
+          ...variables,
+        },
+      );
+    }
+  } catch (e) {
+    console.log(e);
+  }
 
   const formatedData = formatData(data);
   return { ...formatedData };

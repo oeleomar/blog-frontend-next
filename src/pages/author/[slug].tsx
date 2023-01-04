@@ -2,9 +2,9 @@ import { FullStrapy, loadPosts } from 'api/load-posts';
 import { GetStaticPaths, GetStaticProps } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { PostTemplate } from 'templates/PostTemplate';
+import { PostsTemplate } from 'templates/PostsTemplate';
 
-export default function PostPage({ posts, setting }: FullStrapy) {
+export default function AuthorPage({ posts, setting }: FullStrapy) {
   const router = useRouter();
 
   if (router.isFallback) {
@@ -15,42 +15,30 @@ export default function PostPage({ posts, setting }: FullStrapy) {
     <>
       <Head>
         <title>
-          {posts[0].title} - {setting.blogName}
+          Author: {posts[0].author.displayName} - {setting.blogName}
         </title>
-        <meta name="description" content={posts[0].excerpt} />
+        <meta name="description" content={setting.blogDescription} />
       </Head>
-      <PostTemplate post={posts[0]} settings={setting} />
+      <PostsTemplate posts={posts} settings={setting} />
     </>
   );
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  let data: FullStrapy | null = null;
-  let paths = [];
-
-  try {
-    data = await loadPosts();
-    paths = data.posts.map((post) => ({ params: { slug: post.slug } }));
-  } catch (e) {
-    data = null;
-  }
-
-  if (!data || !data.posts || !data.posts.length) {
-    paths = [];
-  }
-
   return {
-    paths,
+    paths: [],
     fallback: true,
   };
 };
 
 export const getStaticProps: GetStaticProps<FullStrapy> = async (ctx) => {
   let data: FullStrapy | null = null;
-  const objectFilter = { contains: ctx.params.slug as string };
+  const objectFilter = { slug: { contains: ctx.params.slug as string } };
 
   try {
-    data = await loadPosts({ postSlug: objectFilter });
+    data = await loadPosts({
+      authorSlug: objectFilter,
+    });
   } catch (e) {
     data = null;
   }
