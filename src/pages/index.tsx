@@ -17,10 +17,10 @@ export default function Index({ posts, setting }: FullStrapy) {
 
 export const getStaticProps: GetStaticProps<FullStrapy> = async () => {
   let data: FullStrapy = null;
-
   try {
     data = await loadPosts();
   } catch (e) {
+    console.log(e);
     data = null;
   }
 
@@ -29,6 +29,7 @@ export const getStaticProps: GetStaticProps<FullStrapy> = async () => {
       notFound: true,
     };
   }
+  console.log('Chjeguei aqui');
   return {
     props: {
       posts: data.posts,
