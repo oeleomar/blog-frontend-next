@@ -19,7 +19,7 @@ export default function PostPage({ posts, setting }: FullStrapy) {
         </title>
         <meta name="description" content={posts[0].excerpt} />
       </Head>
-      <PostTemplate post={posts[0]} settings={setting} />
+      <PostTemplate post={posts[0]} setting={setting} />
     </>
   );
 }
@@ -31,6 +31,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   try {
     data = await loadPosts();
     paths = data.posts.map((post) => ({ params: { slug: post.slug } }));
+    console.log(paths);
   } catch (e) {
     data = null;
   }
@@ -47,10 +48,11 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 export const getStaticProps: GetStaticProps<FullStrapy> = async (ctx) => {
   let data: FullStrapy | null = null;
-  const objectFilter = { contains: ctx.params.slug as string };
 
   try {
-    data = await loadPosts({ postSlug: objectFilter });
+    data = await loadPosts({
+      postSlug: ctx.params.slug as string,
+    });
   } catch (e) {
     data = null;
   }

@@ -1,6 +1,6 @@
-import Head from 'next/head';
 import { FullStrapy, loadPosts } from 'api/load-posts';
 import { GetStaticProps } from 'next';
+import Head from 'next/head';
 import { PostsTemplate } from 'templates/PostsTemplate';
 
 export default function Index({ posts, setting }: FullStrapy) {
@@ -10,7 +10,7 @@ export default function Index({ posts, setting }: FullStrapy) {
         <title>{setting.blogName}</title>
         <meta name="description" content={setting.blogDescription} />
       </Head>
-      <PostsTemplate posts={posts} settings={setting} />
+      <PostsTemplate posts={posts} setting={setting} />
     </>
   );
 }

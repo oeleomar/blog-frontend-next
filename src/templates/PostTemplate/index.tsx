@@ -6,13 +6,13 @@ import { SettingsStrapi } from 'shared-types/settings-strapi';
 import { BaseTemplate } from 'templates/Base';
 
 export type PostTemplateProps = {
-  settings: SettingsStrapi;
+  setting: SettingsStrapi;
   post: PostStrapi;
 };
 
-export const PostTemplate = ({ settings, post }: PostTemplateProps) => {
+export const PostTemplate = ({ setting, post }: PostTemplateProps) => {
   return (
-    <BaseTemplate settings={settings}>
+    <BaseTemplate setting={setting}>
       <Post {...post} />
       <Styled.TagsContainer>
         <PostTags tags={post.tags} />

@@ -15,30 +15,33 @@ export default function AuthorPage({ posts, setting }: FullStrapy) {
     <>
       <Head>
         <title>
-          Author: {posts[0].author.displayName} - {setting.blogName}
+          {posts[0].title} - {setting.blogName}
         </title>
-        <meta name="description" content={setting.blogDescription} />
+        <meta name="description" content={posts[0].excerpt} />
       </Head>
-      <PostsTemplate posts={posts} settings={setting} />
+      <PostsTemplate posts={posts} setting={setting} />
     </>
   );
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
+  const data: FullStrapy | null = null;
+  const paths = [];
+
   return {
-    paths: [],
+    paths,
     fallback: true,
   };
 };
 
 export const getStaticProps: GetStaticProps<FullStrapy> = async (ctx) => {
   let data: FullStrapy | null = null;
-  const objectFilter = { slug: { contains: ctx.params.slug as string } };
 
   try {
     data = await loadPosts({
-      authorSlug: objectFilter,
+      authorSlug: ctx.params.slug as string,
     });
+    console.log(data.posts);
   } catch (e) {
     data = null;
   }

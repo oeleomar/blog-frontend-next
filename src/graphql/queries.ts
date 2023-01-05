@@ -26,7 +26,7 @@ export const GRAPHQL_QUERY_POSTS = gql`
 
 export const GRAPHQL_QUERY_SLUG = gql`
  ${GRAPHQL_FRAGMENTS}
-  query GET_POST_BY_SLUG($postSlug: StringFilterInput) {
+  query GET_POST_BY_SLUG($postSlug: String!) {
   setting {
     data {
       id
@@ -36,7 +36,7 @@ export const GRAPHQL_QUERY_SLUG = gql`
     }
   }
 
-  posts(filters: { slug: $postSlug }) {
+  posts(filters: { slug: { eq: $postSlug } }) {
     data {
       id
       attributes {
@@ -48,7 +48,7 @@ export const GRAPHQL_QUERY_SLUG = gql`
 `;
 export const GRAPHQL_QUERY_AUTHOR = gql`
  ${GRAPHQL_FRAGMENTS}
-query GET_POST_BY_AUTHOR($postAuthor: AuthorFiltersInput) {
+query GET_POST_BY_AUTHOR($authorSlug: String!) {
   setting {
     data {
       id
@@ -58,7 +58,7 @@ query GET_POST_BY_AUTHOR($postAuthor: AuthorFiltersInput) {
     }
   }
 
-  posts(filters: { author: $postAuthor }) {
+  posts(filters: { author: { slug : { eq: $authorSlug }}}) {
     data {
       id
       attributes {
@@ -70,7 +70,7 @@ query GET_POST_BY_AUTHOR($postAuthor: AuthorFiltersInput) {
 `;
 export const GRAPHQL_QUERY_CATEGORY = gql`
  ${GRAPHQL_FRAGMENTS}
-query GET_POST_BY_CATEGORY($postCategory: CategoryFiltersInput) {
+query GET_POST_BY_CATEGORY($postCategory: String) {
   setting {
     data {
       id

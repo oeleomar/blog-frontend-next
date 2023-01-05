@@ -5,151 +5,133 @@ import { SettingsStrapi } from 'shared-types/settings-strapi';
 import config from '../config/index';
 
 export type LoadPostVariables = {
-  categorySlug?: {
-    slug: {
-      contains: string;
-    };
-  };
-  postSlug?: {
-    contains: string;
-  };
-  authorSlug?: {
-    slug: {
-      contains: string;
-    };
-  };
-
-  tagSlug?: {
-    slug: {
-      contains: string;
-    };
-  };
-  start?: number;
-  limit?: number;
+  categorySlug?: string;
+  postSlug?: string;
+  authorSlug?: string;
+  tagSlug?: string;
 };
 
 export type FullStrapy = { setting: SettingsStrapi; posts: PostStrapi[] };
 
-export const loadPosts = async (
-  variables: LoadPostVariables = {},
-): Promise<FullStrapy> => {
+export const loadPosts = async (variables: LoadPostVariables = {}) => {
   let data: FullStrapy | null;
-  const defaultVariables = {
-    start: 0,
-    limit: 10,
-  };
 
   try {
-    if (variables.authorSlug) {
-      console.log(variables.authorSlug);
-      data = await request(
-        config.graphQlUrl,
-        GRAPHQL_QUERY.GRAPHQL_QUERY_AUTHOR,
-        { ...defaultVariables, ...variables },
-      );
-      console.log(data, GRAPHQL_QUERY.GRAPHQL_QUERY_AUTHOR);
-    } else if (variables.categorySlug) {
-      console.log('categor');
-      data = await request(
-        config.graphQlUrl,
-        GRAPHQL_QUERY.GRAPHQL_QUERY_CATEGORY,
-        {
-          ...defaultVariables,
-          ...variables,
-        },
-      );
-    } else if (variables.postSlug) {
-      console.log(GRAPHQL_QUERY.GRAPHQL_QUERY_SLUG);
+    if (variables.postSlug) {
       data = await request(
         config.graphQlUrl,
         GRAPHQL_QUERY.GRAPHQL_QUERY_SLUG,
         {
-          ...defaultVariables,
           ...variables,
         },
       );
-    } else if (variables.tagSlug) {
-      console.log('tag');
-      data = await request(config.graphQlUrl, GRAPHQL_QUERY.GRAPHQL_QUERY_TAG, {
-        ...variables,
-      });
+      const posts = formatPosts(data);
+      const setting = formatSettings(data);
+      return { posts, setting };
+    } else if (variables.authorSlug) {
+      console.log('Entrei no author');
+      data = await request(
+        config.graphQlUrl,
+        GRAPHQL_QUERY.GRAPHQL_QUERY_AUTHOR,
+        {
+          ...variables,
+        },
+      );
+      console.log(data);
+      const posts = formatPosts(data);
+      const setting = formatSettings(data);
+      return { posts, setting };
     } else {
       data = await request(
         config.graphQlUrl,
         GRAPHQL_QUERY.GRAPHQL_QUERY_POSTS,
         {
-          ...defaultVariables,
           ...variables,
         },
       );
+      const posts = formatPosts(data);
+      const setting = formatSettings(data);
+      return { posts, setting };
     }
   } catch (e) {
     console.log(e);
   }
-
-  const formatedData = formatData(data);
-  return { ...formatedData };
 };
 
-export function formatData(data: any) {
+export function formatPosts(data: any) {
   const posts = data.posts.data.map((val) => {
     const {
-      title,
-      slug,
-      excerpt,
-      content,
-      allowComments,
-      categories,
-      tags,
-      author,
-      cover,
-      createdAt,
-    } = val.attributes;
+      id,
+      attributes: {
+        title = '',
+        slug = '',
+        excerpt = '',
+        content = '',
+        allowComments = true,
+        categories = [],
+        tags = [],
+        author = {},
+        cover = {},
+        createdAt = '',
+      },
+    } = val;
     return {
+      id,
       allowComments,
       title,
       slug,
       excerpt,
       content,
       createdAt,
-      categories: categories.data.map((val: any) => {
-        return {
-          id: val.id,
-          displayName: val.attributes.displayName,
-          slug: val.attributes.slug,
-        };
-      }),
-      tags: tags.data.map((val: any) => {
-        return {
-          id: val.id,
-          displayName: val.attributes.displayName,
-          slug: val.attributes.slug,
-        };
-      }),
-      author: {
-        id: author.data.id,
-        displayName: author.data.attributes.displayName,
-        slug: author.data.attributes.slug,
-      },
-      cover: {
-        id: cover.data.id,
-        name: cover.data.attributes.name,
-        alternativeText: cover.data.attributes.alternativeText,
-        url: cover.data.attributes.url,
-      },
+      categories:
+        categories.data.length > 0
+          ? categories.data.map((val: any) => {
+              return {
+                id: val.id,
+                displayName: val.attributes.displayName,
+                slug: val.attributes.slug,
+              };
+            })
+          : [],
+      tags:
+        tags.data.length > 0
+          ? tags.data.map((val: any) => {
+              return {
+                id: val.id,
+                displayName: val.attributes.displayName,
+                slug: val.attributes.slug,
+              };
+            })
+          : [],
+      author: author.data
+        ? {
+            id: author.data.id,
+            displayName: author.data.attributes.displayName,
+            slug: author.data.attributes.slug,
+          }
+        : {},
+      cover: cover.data
+        ? {
+            id: cover.data.id,
+            name: cover.data.attributes.name,
+            alternativeText: cover.data.attributes.alternativeText,
+            url: cover.data.attributes.url,
+          }
+        : {},
     };
   });
+
+  return posts;
+  /*  */
+}
+
+function formatSettings(data: any) {
   const {
-    logo: {
-      data: {
-        id,
-        attributes: { name, alternativeText, url },
-      },
-    },
-    blogDescription,
-    blogName,
-    menuLink,
-    text,
+    logo = {},
+    blogDescription = '',
+    blogName = '',
+    menuLink = [],
+    text = '',
   } = data.setting.data.attributes;
 
   const setting = {
@@ -157,13 +139,14 @@ export function formatData(data: any) {
     blogDescription,
     blogName,
     logo: {
-      id,
-      name,
-      alternativeText,
-      url,
+      id: logo.data.id,
+      name: logo.data.attributes.name,
+      alternativeText: logo.data.attributes.alternativeText,
+      url: logo.data.attributes.url,
     },
     menuLink,
     text,
   };
-  return { setting, posts };
+
+  return { ...setting };
 }
