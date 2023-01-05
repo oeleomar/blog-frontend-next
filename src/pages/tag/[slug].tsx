@@ -2,9 +2,9 @@ import { FullStrapy, loadPosts } from 'api/load-posts';
 import { GetStaticPaths, GetStaticProps } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { PostTemplate } from 'templates/PostTemplate';
+import { PostsTemplate } from 'templates/PostsTemplate';
 
-export default function PostPage({ posts, setting }: FullStrapy) {
+export default function AuthorPage({ posts, setting }: FullStrapy) {
   const router = useRouter();
 
   if (router.isFallback) {
@@ -19,25 +19,13 @@ export default function PostPage({ posts, setting }: FullStrapy) {
         </title>
         <meta name="description" content={posts[0].excerpt} />
       </Head>
-      <PostTemplate post={posts[0]} setting={setting} />
+      <PostsTemplate posts={posts} setting={setting} />
     </>
   );
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  let data: FullStrapy | null = null;
-  let paths = [];
-
-  try {
-    data = await loadPosts();
-    paths = data.posts.map((post) => ({ params: { slug: post.slug } }));
-  } catch (e) {
-    data = null;
-  }
-
-  if (!data || !data.posts || !data.posts.length) {
-    paths = [];
-  }
+  const paths = [];
 
   return {
     paths,
@@ -50,7 +38,7 @@ export const getStaticProps: GetStaticProps<FullStrapy> = async (ctx) => {
 
   try {
     data = await loadPosts({
-      postSlug: ctx.params.slug as string,
+      tagSlug: ctx.params.slug as string,
     });
   } catch (e) {
     data = null;

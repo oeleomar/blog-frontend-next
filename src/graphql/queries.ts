@@ -70,7 +70,7 @@ query GET_POST_BY_AUTHOR($authorSlug: String!) {
 `;
 export const GRAPHQL_QUERY_CATEGORY = gql`
  ${GRAPHQL_FRAGMENTS}
-query GET_POST_BY_CATEGORY($postCategory: String) {
+query GET_POST_BY_CATEGORY($categorySlug: String!) {
   setting {
     data {
       id
@@ -80,7 +80,7 @@ query GET_POST_BY_CATEGORY($postCategory: String) {
     }
   }
 
-  posts(filters: { categories: $postCategory }) {
+  posts(filters: { categories: {slug: {eq: $categorySlug }} }) {
     data {
       id
       attributes {
@@ -92,7 +92,7 @@ query GET_POST_BY_CATEGORY($postCategory: String) {
 
 export const GRAPHQL_QUERY_TAG = gql`
  ${GRAPHQL_FRAGMENTS}
-query GET_POST_BY_TAG($postTag: TagFiltersInput) {
+query GET_POST_BY_TAG($tagSlug: String!) {
   setting {
     data {
       id
@@ -102,7 +102,7 @@ query GET_POST_BY_TAG($postTag: TagFiltersInput) {
     }
   }
 
-  posts(filters: { tags: $postTag }) {
+  posts(filters: { tags: {slug: {eq: $tagSlug }}}) {
     data {
       id
       attributes {

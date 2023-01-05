@@ -4,7 +4,7 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { PostsTemplate } from 'templates/PostsTemplate';
 
-export default function AuthorPage({ posts, setting }: FullStrapy) {
+export default function TagPage({ posts, setting }: FullStrapy) {
   const router = useRouter();
 
   if (router.isFallback) {
@@ -41,7 +41,6 @@ export const getStaticProps: GetStaticProps<FullStrapy> = async (ctx) => {
     data = await loadPosts({
       authorSlug: ctx.params.slug as string,
     });
-    console.log(data.posts);
   } catch (e) {
     data = null;
   }

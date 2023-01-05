@@ -29,7 +29,6 @@ export const loadPosts = async (variables: LoadPostVariables = {}) => {
       const setting = formatSettings(data);
       return { posts, setting };
     } else if (variables.authorSlug) {
-      console.log('Entrei no author');
       data = await request(
         config.graphQlUrl,
         GRAPHQL_QUERY.GRAPHQL_QUERY_AUTHOR,
@@ -37,7 +36,24 @@ export const loadPosts = async (variables: LoadPostVariables = {}) => {
           ...variables,
         },
       );
-      console.log(data);
+      const posts = formatPosts(data);
+      const setting = formatSettings(data);
+      return { posts, setting };
+    } else if (variables.tagSlug) {
+      data = await request(config.graphQlUrl, GRAPHQL_QUERY.GRAPHQL_QUERY_TAG, {
+        ...variables,
+      });
+      const posts = formatPosts(data);
+      const setting = formatSettings(data);
+      return { posts, setting };
+    } else if (variables.categorySlug) {
+      data = await request(
+        config.graphQlUrl,
+        GRAPHQL_QUERY.GRAPHQL_QUERY_CATEGORY,
+        {
+          ...variables,
+        },
+      );
       const posts = formatPosts(data);
       const setting = formatSettings(data);
       return { posts, setting };
