@@ -11,11 +11,15 @@ export default function AuthorPage({ posts, setting }: FullStrapy) {
     return <h1>Caregando ...</h1>;
   }
 
+  const tagName = posts[0].tags.filter(
+    (tag) => tag.slug === router.query.slug,
+  )[0].displayName;
+
   return (
     <>
       <Head>
         <title>
-          {posts[0].title} - {setting.blogName}
+          tag: {tagName} - {setting.blogName}
         </title>
         <meta name="description" content={posts[0].excerpt} />
       </Head>

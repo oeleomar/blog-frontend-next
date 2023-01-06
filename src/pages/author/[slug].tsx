@@ -15,7 +15,7 @@ export default function TagPage({ posts, setting }: FullStrapy) {
     <>
       <Head>
         <title>
-          {posts[0].title} - {setting.blogName}
+          {posts[0].author.displayName} - {setting.blogName}
         </title>
         <meta name="description" content={posts[0].excerpt} />
       </Head>
@@ -25,7 +25,6 @@ export default function TagPage({ posts, setting }: FullStrapy) {
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const data: FullStrapy | null = null;
   const paths = [];
 
   return {

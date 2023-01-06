@@ -29,7 +29,6 @@ export const getStaticProps: GetStaticProps<FullStrapy> = async () => {
       notFound: true,
     };
   }
-  console.log('Chjeguei aqui');
   return {
     props: {
       posts: data.posts,

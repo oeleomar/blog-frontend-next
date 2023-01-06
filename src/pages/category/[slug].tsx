@@ -11,11 +11,15 @@ export default function CategoryPage({ posts, setting }: FullStrapy) {
     return <h1>Caregando ...</h1>;
   }
 
+  const categoryName = posts[0].categories.filter(
+    (category) => category.slug === router.query.slug,
+  )[0].displayName;
+
   return (
     <>
       <Head>
         <title>
-          {posts[0].title} - {setting.blogName}
+          Category: {categoryName} - {setting.blogName}
         </title>
         <meta name="description" content={posts[0].excerpt} />
       </Head>
