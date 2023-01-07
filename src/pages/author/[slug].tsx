@@ -1,10 +1,14 @@
-import { FullStrapy, loadPosts } from 'api/load-posts';
+import {
+  defaultLoadPostsVariables,
+  FullStrapy,
+  loadPosts,
+} from 'api/load-posts';
 import { GetStaticPaths, GetStaticProps } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { PostsTemplate } from 'templates/PostsTemplate';
 
-export default function TagPage({ posts, setting }: FullStrapy) {
+export default function TagPage({ posts, setting, variables }: FullStrapy) {
   const router = useRouter();
 
   if (router.isFallback) {
@@ -19,7 +23,7 @@ export default function TagPage({ posts, setting }: FullStrapy) {
         </title>
         <meta name="description" content={posts[0].excerpt} />
       </Head>
-      <PostsTemplate posts={posts} setting={setting} />
+      <PostsTemplate posts={posts} setting={setting} variables={variables} />
     </>
   );
 }
@@ -35,11 +39,11 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 export const getStaticProps: GetStaticProps<FullStrapy> = async (ctx) => {
   let data: FullStrapy | null = null;
-
+  const variables = {
+    authorSlug: ctx.params.slug as string,
+  };
   try {
-    data = await loadPosts({
-      authorSlug: ctx.params.slug as string,
-    });
+    data = await loadPosts(variables);
   } catch (e) {
     data = null;
   }
@@ -53,6 +57,10 @@ export const getStaticProps: GetStaticProps<FullStrapy> = async (ctx) => {
     props: {
       posts: data.posts,
       setting: data.setting,
+      variables: {
+        ...defaultLoadPostsVariables,
+        ...variables,
+      },
     },
     revalidate: 24 * 60 * 60,
   };

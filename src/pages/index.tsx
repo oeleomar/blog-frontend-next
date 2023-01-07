@@ -1,16 +1,20 @@
-import { FullStrapy, loadPosts } from 'api/load-posts';
+import {
+  defaultLoadPostsVariables,
+  FullStrapy,
+  loadPosts,
+} from 'api/load-posts';
 import { GetStaticProps } from 'next';
 import Head from 'next/head';
 import { PostsTemplate } from 'templates/PostsTemplate';
 
-export default function Index({ posts, setting }: FullStrapy) {
+export default function Index({ posts, setting, variables }: FullStrapy) {
   return (
     <>
       <Head>
         <title>{setting.blogName}</title>
         <meta name="description" content={setting.blogDescription} />
       </Head>
-      <PostsTemplate posts={posts} setting={setting} />
+      <PostsTemplate posts={posts} setting={setting} variables={variables} />
     </>
   );
 }
@@ -20,7 +24,6 @@ export const getStaticProps: GetStaticProps<FullStrapy> = async () => {
   try {
     data = await loadPosts();
   } catch (e) {
-    console.log(e);
     data = null;
   }
 
@@ -33,6 +36,9 @@ export const getStaticProps: GetStaticProps<FullStrapy> = async () => {
     props: {
       posts: data.posts,
       setting: data.setting,
+      variables: {
+        ...defaultLoadPostsVariables,
+      },
     },
     revalidate: 24 * 60 * 60,
   };

@@ -7,68 +7,37 @@ import config from '../config/index';
 export type LoadPostVariables = {
   categorySlug?: string;
   postSlug?: string;
+  postSearch?: string;
   authorSlug?: string;
   tagSlug?: string;
+  sort?: string;
+  start?: number;
+  limit?: number;
 };
 
-export type FullStrapy = { setting: SettingsStrapi; posts: PostStrapi[] };
+export type FullStrapy = {
+  setting: SettingsStrapi;
+  posts: PostStrapi[];
+  variables?: LoadPostVariables;
+};
+
+export const defaultLoadPostsVariables: LoadPostVariables = {
+  sort: 'createdAt:desc',
+  start: 0,
+  limit: 6,
+};
 
 export const loadPosts = async (variables: LoadPostVariables = {}) => {
   let data: FullStrapy | null;
 
   try {
-    if (variables.postSlug) {
-      data = await request(
-        config.graphQlUrl,
-        GRAPHQL_QUERY.GRAPHQL_QUERY_SLUG,
-        {
-          ...variables,
-        },
-      );
-      const posts = formatPosts(data);
-      const setting = formatSettings(data);
-      return { posts, setting };
-    } else if (variables.authorSlug) {
-      data = await request(
-        config.graphQlUrl,
-        GRAPHQL_QUERY.GRAPHQL_QUERY_AUTHOR,
-        {
-          ...variables,
-        },
-      );
-      const posts = formatPosts(data);
-      const setting = formatSettings(data);
-      return { posts, setting };
-    } else if (variables.tagSlug) {
-      data = await request(config.graphQlUrl, GRAPHQL_QUERY.GRAPHQL_QUERY_TAG, {
-        ...variables,
-      });
-      const posts = formatPosts(data);
-      const setting = formatSettings(data);
-      return { posts, setting };
-    } else if (variables.categorySlug) {
-      data = await request(
-        config.graphQlUrl,
-        GRAPHQL_QUERY.GRAPHQL_QUERY_CATEGORY,
-        {
-          ...variables,
-        },
-      );
-      const posts = formatPosts(data);
-      const setting = formatSettings(data);
-      return { posts, setting };
-    } else {
-      data = await request(
-        config.graphQlUrl,
-        GRAPHQL_QUERY.GRAPHQL_QUERY_POSTS,
-        {
-          ...variables,
-        },
-      );
-      const posts = formatPosts(data);
-      const setting = formatSettings(data);
-      return { posts, setting };
-    }
+    data = await request(config.graphQlUrl, GRAPHQL_QUERY.GRAPHQL_QUERY_POSTS, {
+      ...defaultLoadPostsVariables,
+      ...variables,
+    });
+    const posts = formatPosts(data);
+    const setting = formatSettings(data);
+    return { posts, setting };
   } catch (e) {
     console.log(e);
   }

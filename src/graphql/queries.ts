@@ -3,27 +3,52 @@ import { GRAPHQL_FRAGMENTS } from './fragments';
 
 export const GRAPHQL_QUERY_POSTS = gql`
   ${GRAPHQL_FRAGMENTS}
-  query GET_POSTS {
+  query GET_POSTS(
+    $categorySlug: String
+    $postSlug: String
+    $postSearch: String
+    $authorSlug: String
+    $tagSlug: String
+    $sort: [String] = "createdAt:desc"
+    $start: Int = 0
+    $limit: Int = 10
+  ) {
     setting {
-      data {
+      data{
         id
-        attributes {
-          ...settings
+        attributes{
+      		...settings
         }
       }
     }
-
-    posts {
+    posts(
+      pagination: {
+        start: $start
+        limit: $limit
+      }
+      sort: $sort
+      filters: {
+        slug: {eq: $postSlug}
+        or: [
+          {title: {contains: $postSearch}}
+          {content: {contains: $postSearch}}
+          {excerpt: {contains: $postSearch}}
+        ]
+        categories: {slug: {eq: $categorySlug}}
+        tags: {slug: {eq: $tagSlug}}
+        author: {slug: {eq: $authorSlug}}
+      }
+    ) {
       data {
         id
         attributes {
-          ...post
+        	...post
         }
       }
     }
   }
 `;
-
+/*
 export const GRAPHQL_QUERY_SLUG = gql`
  ${GRAPHQL_FRAGMENTS}
   query GET_POST_BY_SLUG($postSlug: String!) {
@@ -112,3 +137,4 @@ query GET_POST_BY_TAG($tagSlug: String!) {
   }
 }
 `;
+ */
