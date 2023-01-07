@@ -36,7 +36,7 @@ export const BaseTemplate = ({ setting, children }: BaseTemplateProps) => {
             type="search"
             placeholder="Digite sua pesquisa"
             name="q"
-            defaultValue={router.query.q}
+            defaultValue={router?.query?.q || ''}
             min="1"
           />
         </form>
