@@ -1,12 +1,12 @@
 import { Meta, Story } from '@storybook/react/types-6-0';
-import { ToggleTheme, ToggleThemeProps } from '.';
+import { ToggleTheme } from '.';
 
 export default {
   title: 'ToggleTheme',
   component: ToggleTheme,
-} as Meta<ToggleThemeProps>;
+} as Meta;
 
-export const Template: Story<ToggleThemeProps> = (args) => {
+export const Template: Story = (args) => {
   return (
     <div>
       <ToggleTheme {...args} />

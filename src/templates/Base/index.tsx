@@ -2,6 +2,7 @@ import { Footer } from 'components/Footer';
 import { GoTop } from 'components/GoTop';
 import { Header } from 'components/Header';
 import { Menu } from 'components/Menu';
+import { ToggleTheme } from 'components/ToggleTheme';
 import { useRouter } from 'next/router';
 import { SettingsStrapi } from 'shared-types/settings-strapi';
 import * as Styled from './styles';
@@ -16,6 +17,7 @@ export const BaseTemplate = ({ setting, children }: BaseTemplateProps) => {
 
   return (
     <Styled.Wrapper>
+      <ToggleTheme />
       <Menu
         links={setting.menuLink}
         blogName={setting.blogName}
