@@ -8,7 +8,7 @@ import { SettingsStrapi } from 'shared-types/settings-strapi';
 import * as Styled from './styles';
 
 export type BaseTemplateProps = {
-  setting: SettingsStrapi;
+  setting?: SettingsStrapi;
   children?: React.ReactNode;
 };
 

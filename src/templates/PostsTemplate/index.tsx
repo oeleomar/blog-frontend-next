@@ -7,7 +7,7 @@ import * as Styled from './styles';
 import { loadPosts, LoadPostVariables } from 'api/load-posts';
 
 export type PostsTemplateProps = {
-  setting: SettingsStrapi;
+  setting?: SettingsStrapi;
   posts?: PostStrapi[];
   variables?: LoadPostVariables;
 };

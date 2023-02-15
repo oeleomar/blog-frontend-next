@@ -7,7 +7,7 @@ import { BaseTemplate } from 'templates/Base';
 import { Comments } from 'components/Comments';
 
 export type PostTemplateProps = {
-  setting: SettingsStrapi;
+  setting?: SettingsStrapi;
   post: PostStrapi;
 };
 
