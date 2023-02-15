@@ -60,7 +60,6 @@ export function formatPosts(data: any) {
         createdAt = '',
       },
     } = val;
-    console.log(categories.data.length);
     return {
       id,
       allowComments,
@@ -122,8 +121,6 @@ function formatSettings(data: any) {
       text = '',
     },
   } = data.setting.data;
-
-  console.log(logo);
 
   const setting = {
     id: id,
