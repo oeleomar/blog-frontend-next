@@ -24,7 +24,8 @@ export const LogoLink = ({
       <Heading size="medium" uppercase>
         <Link href={link} passHref>
           <Styled.Container target={target}>
-            {srcImg ? <img src={srcImg} alt={text} /> : text}
+            {!!srcImg && <img src={srcImg} alt={text} />}
+            {!srcImg && text}
           </Styled.Container>
         </Link>
       </Heading>
@@ -34,7 +35,8 @@ export const LogoLink = ({
   return (
     <Heading size="medium" uppercase>
       <Styled.Container href={link} target={target}>
-        {srcImg ? <img src={srcImg} alt={text} /> : text}
+        {!!srcImg && <img src={srcImg} alt={text} />}
+        {!srcImg && text}
       </Styled.Container>
     </Heading>
   );

@@ -1,6 +1,6 @@
 export default {
-  url: 'https://strapi-v4-test.herokuapp.com/api/pages/?populate=deep&',
-  siteName: 'Otávio Miranda',
-  defaultSlug: 'landing-page',
-  graphQlUrl: 'http://localhost:1337/graphql',
+  url: 'https://api-blog.eleomardorneles.com.br/api/posts/?populate=deep&',
+  siteName: 'Eleomar Dorneles',
+  defaultSlug: 'BLOG',
+  graphQlUrl: 'https://api-blog.eleomardorneles.com.br/graphql',
 };

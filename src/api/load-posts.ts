@@ -29,12 +29,12 @@ export const defaultLoadPostsVariables: LoadPostVariables = {
 
 export const loadPosts = async (variables: LoadPostVariables = {}) => {
   let data: FullStrapy | null;
-
   try {
     data = await request(config.graphQlUrl, GRAPHQL_QUERY.GRAPHQL_QUERY_POSTS, {
       ...defaultLoadPostsVariables,
       ...variables,
     });
+
     const posts = formatPosts(data);
     const setting = formatSettings(data);
     return { posts, setting };
@@ -46,20 +46,21 @@ export const loadPosts = async (variables: LoadPostVariables = {}) => {
 export function formatPosts(data: any) {
   const posts = data.posts.data.map((val) => {
     const {
-      id,
+      id = '',
       attributes: {
         title = '',
         slug = '',
         excerpt = '',
         content = '',
         allowComments = true,
-        categories = [],
+        categories = {},
         tags = [],
         author = {},
         cover = {},
         createdAt = '',
       },
     } = val;
+    console.log(categories.data.length);
     return {
       id,
       allowComments,
@@ -112,23 +113,31 @@ export function formatPosts(data: any) {
 
 function formatSettings(data: any) {
   const {
-    logo = {},
-    blogDescription = '',
-    blogName = '',
-    menuLink = [],
-    text = '',
-  } = data.setting.data.attributes;
+    id = '',
+    attributes: {
+      logo = {},
+      blogDescription = '',
+      blogName = '',
+      menuLink = [],
+      text = '',
+    },
+  } = data.setting.data;
+
+  console.log(logo);
 
   const setting = {
-    id: data.setting.data.id,
+    id: id,
     blogDescription,
     blogName,
-    logo: {
-      id: logo.data.id,
-      name: logo.data.attributes.name,
-      alternativeText: logo.data.attributes.alternativeText,
-      url: logo.data.attributes.url,
-    },
+    logo:
+      logo.data !== null
+        ? {
+            id: logo.data.id,
+            name: logo.data.attributes.name,
+            alternativeText: logo.data.attributes.alternativeText,
+            url: logo.data.attributes.url,
+          }
+        : {},
     menuLink,
     text,
   };
