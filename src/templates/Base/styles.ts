@@ -1,13 +1,21 @@
 import styled, { css } from 'styled-components';
 
 export const Wrapper = styled.div`
-  ${() => css``}
+  ${() => css`
+    svg.search-ok-icon {
+      width: 2.4rem;
+      height: 2.4rem;
+      margin-left: 1rem;
+    }
+  `}
 `;
 
 export const HeaderContainer = styled.div`
   ${({ theme }) => css`
     margin-top: ${theme.spacings.xhuge};
     padding: 0 ${theme.spacings.large};
+
+
   `}
 `;
 
@@ -35,9 +43,7 @@ export const ContentContainer = styled.div`
     max-width: 120rem;
     width: 100%;
     margin: 0 auto;
-    margin-bottom: ${theme.spacings.xhuge};
-
-
+    margin-bottom: ${theme.spacings.large};
   `}
 `;
 

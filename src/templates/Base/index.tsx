@@ -4,8 +4,11 @@ import { Header } from 'components/Header';
 import { Menu } from 'components/Menu';
 import { ToggleTheme } from 'components/ToggleTheme';
 import { useRouter } from 'next/router';
+import { useState } from 'react';
 import { SettingsStrapi } from 'shared-types/settings-strapi';
 import * as Styled from './styles';
+import { Cancel } from '@styled-icons/material-outlined/Cancel';
+import { CheckCircleOutline } from '@styled-icons/material-outlined/CheckCircleOutline';
 
 export type BaseTemplateProps = {
   setting?: SettingsStrapi;
@@ -14,6 +17,8 @@ export type BaseTemplateProps = {
 
 export const BaseTemplate = ({ setting, children }: BaseTemplateProps) => {
   const router = useRouter();
+  const [searchValue, setSearchValue] = useState(router?.query?.q || '');
+  const [searchDisabled, setSearchDisabled] = useState();
 
   return (
     <Styled.Wrapper>
@@ -31,15 +36,19 @@ export const BaseTemplate = ({ setting, children }: BaseTemplateProps) => {
         />
       </Styled.HeaderContainer>
       <Styled.SearchContainer>
-        <form action="/search/" method="GET">
-          <Styled.SearchInput
-            type="search"
-            placeholder="Digite sua pesquisa"
-            name="q"
-            defaultValue={router?.query?.q || ''}
-            min="1"
-          />
-        </form>
+        <Styled.SearchInput
+          value={searchValue}
+          onChange={(e) => setSearchValue(e.target.value)}
+          type="search"
+          placeholder="Digite sua pesquisa"
+          name="q"
+          defaultValue={router?.query?.q || ''}
+          min="1"
+        />
+        <CheckCircleOutline
+          className="search-ok-icon"
+          aria-label="Input Enabled"
+        />
       </Styled.SearchContainer>
       <Styled.ContentContainer>{children}</Styled.ContentContainer>
       <Styled.FooterContainer>
