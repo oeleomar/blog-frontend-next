@@ -10,12 +10,12 @@ export const ButtonContainer = styled.div`
 `;
 
 export const Button = styled.button`
-  ${({ theme }) => css`
+  ${({ theme, disabled }) => css`
     background: ${theme.colors.primary};
     color: ${theme.colors.white};
     border: none;
     padding: ${theme.spacings.small} ${theme.spacings.large};
-    cursor: pointer;
+    cursor: ${disabled ? 'auto' : 'pointer'};
     font-family: inherit;
 
     &:disabled {

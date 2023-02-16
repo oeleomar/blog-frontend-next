@@ -4,7 +4,7 @@ import { Header } from 'components/Header';
 import { Menu } from 'components/Menu';
 import { ToggleTheme } from 'components/ToggleTheme';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { SettingsStrapi } from 'shared-types/settings-strapi';
 import * as Styled from './styles';
 import { Cancel } from '@styled-icons/material-outlined/Cancel';
@@ -18,7 +18,39 @@ export type BaseTemplateProps = {
 export const BaseTemplate = ({ setting, children }: BaseTemplateProps) => {
   const router = useRouter();
   const [searchValue, setSearchValue] = useState(router?.query?.q || '');
-  const [searchDisabled, setSearchDisabled] = useState();
+  const [searchDisabled, setSearchDisabled] = useState(true);
+  const [isReady, setIsReady] = useState(true);
+  const inputTimeout = useRef(null);
+
+  useEffect(() => {
+    if (isReady) {
+      setSearchDisabled(false);
+    } else {
+      setSearchDisabled(true);
+    }
+  }, [isReady]);
+
+  useEffect(() => {
+    clearTimeout(inputTimeout.current);
+
+    if (router?.query?.q === searchValue) return;
+
+    const q = searchValue;
+
+    if (!q || q.length <= 3) return;
+
+    inputTimeout.current = setTimeout(() => {
+      setIsReady(false);
+      router
+        .push({
+          pathname: '/search/',
+          query: { q: searchValue },
+        })
+        .then(() => setIsReady(true));
+    }, 600);
+
+    return () => clearTimeout(inputTimeout.current);
+  }, [searchValue, router]);
 
   return (
     <Styled.Wrapper>
@@ -42,13 +74,17 @@ export const BaseTemplate = ({ setting, children }: BaseTemplateProps) => {
           type="search"
           placeholder="Digite sua pesquisa"
           name="q"
-          defaultValue={router?.query?.q || ''}
           min="1"
+          disabled={searchDisabled}
         />
-        <CheckCircleOutline
-          className="search-ok-icon"
-          aria-label="Input Enabled"
-        />
+        {searchDisabled ? (
+          <Cancel className="search-cancel-icon" aria-label="Input Disabled" />
+        ) : (
+          <CheckCircleOutline
+            className="search-ok-icon"
+            aria-label="Input Enabled"
+          />
+        )}
       </Styled.SearchContainer>
       <Styled.ContentContainer>{children}</Styled.ContentContainer>
       <Styled.FooterContainer>
