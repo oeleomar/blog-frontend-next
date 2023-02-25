@@ -25,7 +25,38 @@ export default function TagPage({ posts, setting, variables }: FullStrapy) {
         <title>
           tag: {tagName} - {setting.blogName}
         </title>
-        <meta name="description" content={posts[0].excerpt} />
+        <meta
+          name="description"
+          content={`Visualizando o conteúdo contendo a tag: ${tagName}`}
+        />
+
+        <link
+          rel="canonical"
+          href={`https://blog.eleomardorneles.com.br/tag/${tagName}`}
+        />
+        <meta name="author" content="Eleomar Dorneles" />
+        <meta name="robots" content="index, follow" />
+
+        <meta
+          property="og:site_name"
+          content={`tag: ${tagName} - ${setting.blogName}`}
+        />
+        <meta
+          property="og:title"
+          content={`tag: ${tagName} - ${setting.blogName}`}
+        />
+        <meta
+          property="og:description"
+          content={`Visualizando o conteúdo contendo a tag: ${tagName}`}
+        />
+        <meta property="og:image" content={setting.logo.url} />
+        <meta property="og:type" content="website" />
+        <meta property="og:image:width" content="300" />
+        <meta property="og:image:height" content="300" />
+        <meta
+          property="og:url"
+          content={`https://blog.eleomardorneles.com.br/tag/${tagName}`}
+        />
       </Head>
       <PostsTemplate posts={posts} setting={setting} variables={variables} />
     </>

@@ -13,6 +13,19 @@ export default function Index({ posts, setting, variables }: FullStrapy) {
       <Head>
         <title>{setting.blogName}</title>
         <meta name="description" content={setting.blogDescription} />
+        <link rel="canonical" href="https://blog.eleomardorneles.com.br" />
+        <meta name="author" content="Eleomar Dorneles" />
+        <meta name="robots" content="index, follow" />
+        <link rel="icon" href="/favicon.ico" />
+
+        <meta property="og:site_name" content={setting.blogName} />
+        <meta property="og:title" content={setting.blogName} />
+        <meta property="og:description" content={setting.blogDescription} />
+        <meta property="og:image" content={setting.logo.url} />
+        <meta property="og:type" content="website" />
+        <meta property="og:image:width" content="300" />
+        <meta property="og:image:height" content="300" />
+        <meta property="og:url" content="https://blog.eleomardorneles.com.br" />
       </Head>
       <PostsTemplate posts={posts} setting={setting} variables={variables} />
     </>

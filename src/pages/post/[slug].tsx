@@ -18,6 +18,24 @@ export default function PostPage({ posts, setting }: FullStrapy) {
           {posts[0].title} - {setting.blogName}
         </title>
         <meta name="description" content={posts[0].excerpt} />
+        <link
+          rel="canonical"
+          href={`https://blog.eleomardorneles.com.br/post/${posts[0].slug}`}
+        />
+        <meta name="author" content="Eleomar Dorneles" />
+        <meta name="robots" content="index, follow" />
+
+        <meta property="og:site_name" content={posts[0].title} />
+        <meta property="og:title" content={posts[0].title} />
+        <meta property="og:description" content={posts[0].excerpt} />
+        <meta property="og:image" content={posts[0].cover.url} />
+        <meta property="og:type" content="website" />
+        <meta property="og:image:width" content="300" />
+        <meta property="og:image:height" content="300" />
+        <meta
+          property="og:url"
+          content={`https://blog.eleomardorneles.com.br/post/${posts[0].slug}`}
+        />
       </Head>
       <PostTemplate post={posts[0]} setting={setting} />
     </>

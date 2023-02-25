@@ -17,6 +17,37 @@ export default function SearchPage({ posts, setting, variables }: FullStrapy) {
         <title>
           Pesquisa: {router.query.q} - {setting.blogName}
         </title>
+
+        <meta
+          name="description"
+          content={`Resultado da pesquisa: ${router.query.q}`}
+        />
+        <link
+          rel="canonical"
+          href={`https://blog.eleomardorneles.com.br/search/?q=${router.query.q}`}
+        />
+        <meta name="author" content="Eleomar Dorneles" />
+        <meta name="robots" content="index, follow" />
+        <meta
+          property="og:site_name"
+          content={`Pesquisa: ${router.query.q} - ${setting.blogName}`}
+        />
+        <meta
+          property="og:title"
+          content={`Pesquisa: ${router.query.q} - ${setting.blogName}`}
+        />
+        <meta
+          property="og:description"
+          content={`Resultado da pesquisa: ${router.query.q}`}
+        />
+        <meta property="og:image" content={setting.logo.url} />
+        <meta property="og:type" content="website" />
+        <meta property="og:image:width" content="300" />
+        <meta property="og:image:height" content="300" />
+        <meta
+          property="og:url"
+          content={`https://blog.eleomardorneles.com.br/search/?q=${router.query.q}`}
+        />
       </Head>
       <PostsTemplate posts={posts} setting={setting} variables={variables} />
     </>

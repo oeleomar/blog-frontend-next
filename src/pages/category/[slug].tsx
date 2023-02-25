@@ -29,7 +29,38 @@ export default function CategoryPage({
         <title>
           Category: {categoryName} - {setting.blogName}
         </title>
-        <meta name="description" content={posts[0].excerpt} />
+        <meta
+          name="description"
+          content={`Visualizando o conteúdo contendo a categoria: ${categoryName}`}
+        />
+
+        <link
+          rel="canonical"
+          href={`https://blog.eleomardorneles.com.br/category/${categoryName}`}
+        />
+        <meta name="author" content="Eleomar Dorneles" />
+        <meta name="robots" content="index, follow" />
+
+        <meta
+          property="og:site_name"
+          content={`categoria: ${categoryName} - ${setting.blogName}`}
+        />
+        <meta
+          property="og:title"
+          content={`categoria: ${categoryName} - ${setting.blogName}`}
+        />
+        <meta
+          property="og:description"
+          content={`Visualizando o conteúdo contendo a categoria: ${categoryName}`}
+        />
+        <meta property="og:image" content={setting.logo.url} />
+        <meta property="og:type" content="website" />
+        <meta property="og:image:width" content="300" />
+        <meta property="og:image:height" content="300" />
+        <meta
+          property="og:url"
+          content={`https://blog.eleomardorneles.com.br/category/${categoryName}`}
+        />
       </Head>
       <PostsTemplate posts={posts} setting={setting} variables={variables} />
     </>
