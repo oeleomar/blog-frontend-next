@@ -21,18 +21,8 @@ export default function TagPage({ posts, setting, variables }: FullStrapy) {
         <title>
           {posts[0].author.displayName} - {setting.blogName}
         </title>
-        <meta
-          name="description"
-          content={`Visualizando o conteúdo contendo do autor: ${posts[0].author.displayName}`}
-        />
-
-        <link
-          rel="canonical"
-          href={`https://blog.eleomardorneles.com.br/author/${posts[0].author.displayName}`}
-        />
         <meta name="author" content="Eleomar Dorneles" />
-        <meta name="robots" content="index, follow" />
-
+        <meta name="robots" content="noindex, nofollow" />
         <meta
           property="og:site_name"
           content={`Autor: ${posts[0].author.displayName} - ${setting.blogName}`}
@@ -41,18 +31,10 @@ export default function TagPage({ posts, setting, variables }: FullStrapy) {
           property="og:title"
           content={`Autor: ${posts[0].author.displayName} - ${setting.blogName}`}
         />
-        <meta
-          property="og:description"
-          content={`Visualizando o conteúdo contendo do autor: ${posts[0].author.displayName}`}
-        />
         <meta property="og:image" content={setting.logo.url} />
         <meta property="og:type" content="website" />
         <meta property="og:image:width" content="300" />
         <meta property="og:image:height" content="300" />
-        <meta
-          property="og:url"
-          content={`https://blog.eleomardorneles.com.br/author/${posts[0].author.displayName}`}
-        />
       </Head>
       <PostsTemplate posts={posts} setting={setting} variables={variables} />
     </>
