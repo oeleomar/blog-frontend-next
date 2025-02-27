@@ -1,6 +1,6 @@
 export default {
-  url: 'https://api-blog.eleomardorneles.com.br/api/posts/?populate=deep&',
+  url: 'https://api-blog.eleomar.com.br/api/posts/?populate=deep&',
   siteName: 'Eleomar Dorneles',
   defaultSlug: 'BLOG',
-  graphQlUrl: 'https://api-blog.eleomardorneles.com.br/graphql',
+  graphQlUrl: 'https://api-blog.eleomar.com.br/graphql',
 };
